@@ -17,15 +17,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".exterior.GuideMapActivity" />
-        <activity android:name=".exterior.Preferences" />
-        <activity android:name=".exterior.PoiViewActivity" />
+        <!-- <activity android:name="pl.pwr.guide.exterior.GuideMapActivity" />
+        <activity android:name="pl.pwr.guide.exterior.Preferences" />
+        <activity android:name="pl.pwr.guide.exterior.PoiViewActivity" />
 
         <provider
-            android:authorities=".exterior.provider.guide"
-            android:name=".exterior.PoiProvider" />
+            android:authorities="pl.pwr.guide.exterior.provider.guide"
+            android:name="pl.pwr.guide.exterior.PoiProvider" />
 
-        <uses-library android:name="com.google.android.maps" />
+        <uses-library android:name="com.google.android.maps" /> -->
     </application>
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />

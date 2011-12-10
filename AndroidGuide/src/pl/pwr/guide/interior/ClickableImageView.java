@@ -66,7 +66,6 @@ public class ClickableImageView extends ImageView
 	@Override
 	public void setImageBitmap(Bitmap bm)
 	{
-		// TODO Auto-generated method stub
 		super.setImageBitmap(bm);
 
 		bitmapWidth = bm.getWidth();
