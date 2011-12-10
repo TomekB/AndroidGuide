@@ -2,6 +2,7 @@ package pl.pwr.guide.interior.model;
 
 import java.util.ArrayList;
 
+import pl.pwr.guide.interior.controller.Utils;
 
 public class ClickablePoint
 {
@@ -11,9 +12,9 @@ public class ClickablePoint
 	private String shortDescription;
 	private String fullDescription;
 	private String link;
-	private int pointType; //  0	EXIT_POINT, 1 TRANSITION_POINT, 2 POI_POINT
-	private int connectionReference; //id of another interior
-	private ArrayList<MultimediaObject> multimedia;
+	private int pointType; // 0 EXIT_POINT, 1 TRANSITION_POINT, 2 POI_POINT
+	private int connectionReference; // id of another interior
+	private ArrayList<MultimediaObject> multimediaArray;
 
 	public ClickablePoint(int posX, int posY, int type, int id)
 	{
@@ -21,9 +22,9 @@ public class ClickablePoint
 		this.posX = posX;
 		this.posY = posY;
 		this.pointType = type;
-		this.id=id;
+		this.id = id;
 	}
-	
+
 	public ClickablePoint()
 	{
 		super();
@@ -101,12 +102,12 @@ public class ClickablePoint
 
 	public ArrayList<MultimediaObject> getMultimedia()
 	{
-		return multimedia;
+		return multimediaArray;
 	}
 
 	public void setMultimedia(ArrayList<MultimediaObject> multimedia)
 	{
-		this.multimedia = multimedia;
+		this.multimediaArray = multimedia;
 	}
 
 	public void setId(int id)
@@ -127,5 +128,44 @@ public class ClickablePoint
 	public void setPointType(int pointType)
 	{
 		this.pointType = pointType;
+	}
+
+	public ArrayList<MultimediaObject> getImages()
+	{
+		ArrayList<MultimediaObject> images = new ArrayList<MultimediaObject>();
+		for (MultimediaObject object : multimediaArray)
+		{
+			if (object.getType() == Utils.MULTIMEDIA_TYPE_IMAGE)
+			{
+				images.add(object);
+			}
+		}
+		return images;
+	}
+
+	public ArrayList<MultimediaObject> getVideos()
+	{
+		ArrayList<MultimediaObject> videos = new ArrayList<MultimediaObject>();
+		for (MultimediaObject object : multimediaArray)
+		{
+			if (object.getType() == Utils.MULTIMEDIA_TYPE_VIDEO)
+			{
+				videos.add(object);
+			}
+		}
+		return videos;
+	}
+
+	public ArrayList<MultimediaObject> getSongs()
+	{
+		ArrayList<MultimediaObject> songs = new ArrayList<MultimediaObject>();
+		for (MultimediaObject object : multimediaArray)
+		{
+			if (object.getType() == Utils.MULTIMEDIA_TYPE_MUSIC)
+			{
+				songs.add(object);
+			}
+		}
+		return songs;
 	}
 }

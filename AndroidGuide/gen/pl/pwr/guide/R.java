@@ -33,31 +33,33 @@ public final class R {
         public static final int balloon_item_snippet=0x7f080003;
         public static final int balloon_item_title=0x7f080002;
         public static final int balloon_main_layout=0x7f080000;
-        public static final int cancelButton=0x7f08000d;
+        public static final int cancelButton=0x7f08000e;
         public static final int close_img_button=0x7f080004;
         public static final int full_desc_close_button=0x7f080006;
         public static final int full_desc_gallery_button=0x7f080007;
         public static final int full_desc_music_button=0x7f080009;
         public static final int full_desc_textview=0x7f080005;
         public static final int full_desc_videos_button=0x7f080008;
-        public static final int main_image_view=0x7f08000a;
-        public static final int map_view=0x7f080012;
-        public static final int myMapView=0x7f08000b;
-        public static final int okButton=0x7f08000c;
-        public static final int short_desc_close_button=0x7f080010;
-        public static final int short_desc_expand_button=0x7f080011;
-        public static final int short_desc_imageview=0x7f08000e;
-        public static final int short_desc_textview=0x7f08000f;
-        public static final int zoom_spinner=0x7f080013;
+        public static final int interior_gallery=0x7f08000a;
+        public static final int main_image_view=0x7f08000b;
+        public static final int map_view=0x7f080013;
+        public static final int myMapView=0x7f08000c;
+        public static final int okButton=0x7f08000d;
+        public static final int short_desc_close_button=0x7f080011;
+        public static final int short_desc_expand_button=0x7f080012;
+        public static final int short_desc_imageview=0x7f08000f;
+        public static final int short_desc_textview=0x7f080010;
+        public static final int zoom_spinner=0x7f080014;
     }
     public static final class layout {
         public static final int balloon_overlay=0x7f030000;
         public static final int full_desc=0x7f030001;
-        public static final int main=0x7f030002;
-        public static final int map=0x7f030003;
-        public static final int poi_view=0x7f030004;
-        public static final int preferences=0x7f030005;
-        public static final int short_desc=0x7f030006;
+        public static final int interior_gallery=0x7f030002;
+        public static final int main=0x7f030003;
+        public static final int map=0x7f030004;
+        public static final int poi_view=0x7f030005;
+        public static final int preferences=0x7f030006;
+        public static final int short_desc=0x7f030007;
     }
     public static final class raw {
         public static final int place1=0x7f050000;

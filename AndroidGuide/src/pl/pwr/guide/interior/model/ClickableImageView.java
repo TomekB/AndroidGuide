@@ -3,10 +3,12 @@ package pl.pwr.guide.interior.model;
 import java.util.ArrayList;
 
 import pl.pwr.guide.R;
+import pl.pwr.guide.interior.InteriorGallery;
 import pl.pwr.guide.interior.controller.Utils;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -33,6 +35,7 @@ public class ClickableImageView extends ImageView
 	private int bitmapHeight;
 	private ClickablePoint lastChoosenPoint;
 	private ArrayList<ClickablePoint> clickablePoints;
+	private String roomPath;
 
 	boolean tapped;
 
@@ -50,6 +53,11 @@ public class ClickableImageView extends ImageView
 	int totalX, totalY;
 	int scrollByX, scrollByY;
 	private Context context;
+
+	public void setRoomPath(String roomPath)
+	{
+		this.roomPath = roomPath;
+	}
 
 	public ClickableImageView(Context context)
 	{
@@ -292,29 +300,46 @@ public class ClickableImageView extends ImageView
 			@Override
 			public void onClick(View v)
 			{
-				dialog.dismiss();
+				ArrayList<String> paths = new ArrayList<String>();
+				ArrayList<String> description = new ArrayList<String>();
+
+				Intent i = new Intent(context, InteriorGallery.class);
+
+				for (MultimediaObject object : lastChoosenPoint.getImages())
+				{
+					paths.add(roomPath + "/" + object.getPath());
+					description.add(object.getDescription());
+				}
+
+				i.putExtra("paths", paths);
+				i.putExtra("descriptions", description);
+
+				context.startActivity(i);
 			}
 		});
-		
+		button.setEnabled(point.getImages().size() > 0);
+
 		button = (Button) dialog.findViewById(R.id.full_desc_videos_button);
 		button.setOnClickListener(new OnClickListener()
 		{
 			@Override
 			public void onClick(View v)
 			{
-				dialog.dismiss();
+				// dialog.dismiss();
 			}
 		});
-		
+		button.setEnabled(point.getVideos().size() > 0);
+
 		button = (Button) dialog.findViewById(R.id.full_desc_music_button);
 		button.setOnClickListener(new OnClickListener()
 		{
 			@Override
 			public void onClick(View v)
 			{
-				dialog.dismiss();
+				// dialog.dismiss();
 			}
 		});
+		button.setEnabled(point.getSongs().size() > 0);
 
 		dialog.show();
 	}

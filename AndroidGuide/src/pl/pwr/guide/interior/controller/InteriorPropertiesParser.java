@@ -46,6 +46,8 @@ public class InteriorPropertiesParser
 					.getClickablePoints();
 			imageView.setClickablePoints(clickablePoints);
 			imageView.setImageBitmap(bitmap);
+			
+			imageView.setRoomPath(dir + path);
 
 		} catch (Exception e)
 		{
