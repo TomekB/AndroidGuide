@@ -1,6 +1,7 @@
-package pl.pwr.guide.interior;
+package pl.pwr.guide.interior.model;
 
 import java.util.ArrayList;
+
 
 public class ClickablePoint
 {

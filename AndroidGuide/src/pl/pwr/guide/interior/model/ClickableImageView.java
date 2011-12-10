@@ -1,8 +1,9 @@
-package pl.pwr.guide.interior;
+package pl.pwr.guide.interior.model;
 
 import java.util.ArrayList;
 
 import pl.pwr.guide.R;
+import pl.pwr.guide.interior.controller.Utils;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -30,6 +31,7 @@ public class ClickableImageView extends ImageView
 	private int screenHeight;
 	private int bitmapWidth;
 	private int bitmapHeight;
+	private ClickablePoint lastChoosenPoint;
 	private ArrayList<ClickablePoint> clickablePoints;
 
 	boolean tapped;
@@ -52,14 +54,14 @@ public class ClickableImageView extends ImageView
 	public ClickableImageView(Context context)
 	{
 		super(context);
-		this.context=context;
+		this.context = context;
 		clickablePoints = new ArrayList<ClickablePoint>();
 	}
 
 	public ClickableImageView(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
-		this.context=context;
+		this.context = context;
 		clickablePoints = new ArrayList<ClickablePoint>();
 	}
 
@@ -212,47 +214,109 @@ public class ClickableImageView extends ImageView
 		for (ClickablePoint point : clickablePoints)
 		{
 			if (posX > point.getPosX() - POINT_RADIUS
-			&& posX < point.getPosX() + POINT_RADIUS
-			&& posY > point.getPosY() - POINT_RADIUS
-			&& posY < point.getPosY() + POINT_RADIUS)
-			{	
-				final Dialog dialog = new Dialog(context);
-                dialog.setContentView(R.layout.short_desc);
-                dialog.setTitle(point.getName());
-                dialog.setCancelable(true);
-                
-                //set up text
-                TextView text = (TextView) dialog.findViewById(R.id.short_desc_textview);
-                Log.d("shORT",point.getShortDescription());
-                text.setText(point.getFullDescription());
- 
-//                //set up image view
-//                ImageView img = (ImageView) dialog.findViewById(R.id.ImageView01);
-//                img.setImageResource(R.drawable.nista_logo);
- 
-                Button button = (Button) dialog.findViewById(R.id.short_desc_close_button);
-                button.setText("Zamknij");
-                button.setOnClickListener(new OnClickListener() {
-                @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-                
-                button = (Button) dialog.findViewById(R.id.short_desc_expand_button);
-                button.setText("Wi«cej");
-                button.setOnClickListener(new OnClickListener() {
-                @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                        //pokaz pelen opis
-                    }
-                });
-                
-                dialog.show();
+					&& posX < point.getPosX() + POINT_RADIUS
+					&& posY > point.getPosY() - POINT_RADIUS
+					&& posY < point.getPosY() + POINT_RADIUS)
+			{
+				if (point.getPointType() == Utils.POINT_TYPE_POI)
+				{
+					lastChoosenPoint = point;
+					final Dialog dialog = new Dialog(context);
+					dialog.setContentView(R.layout.short_desc);
+					dialog.setTitle(point.getName());
+					dialog.setCancelable(true);
+
+					TextView text = (TextView) dialog
+							.findViewById(R.id.short_desc_textview);
+					text.setText(point.getShortDescription());
+
+					Button button = (Button) dialog
+							.findViewById(R.id.short_desc_close_button);
+					button.setOnClickListener(new OnClickListener()
+					{
+						@Override
+						public void onClick(View v)
+						{
+							dialog.dismiss();
+						}
+					});
+
+					button = (Button) dialog
+							.findViewById(R.id.short_desc_expand_button);
+					button.setOnClickListener(new OnClickListener()
+					{
+						@Override
+						public void onClick(View v)
+						{
+							dialog.dismiss();
+							showFullDescription(lastChoosenPoint);
+						}
+					});
+
+					dialog.show();
+				} else if (point.getPointType() == Utils.POINT_TYPE_TRANSITION)
+				{
+					// przejdz do innego pokoju
+				} else if (point.getPointType() == Utils.POINT_TYPE_EXIT)
+				{
+					// zamknij ca¸y modu¸
+				}
 			}
 		}
+	}
 
+	private void showFullDescription(ClickablePoint point)
+	{
+		final Dialog dialog = new Dialog(context);
+		dialog.setContentView(R.layout.full_desc);
+		dialog.setTitle(point.getName());
+		dialog.setCancelable(true);
+
+		TextView text = (TextView) dialog.findViewById(R.id.full_desc_textview);
+		text.setText(point.getFullDescription());
+
+		Button button = (Button) dialog
+				.findViewById(R.id.full_desc_close_button);
+		button.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				dialog.dismiss();
+			}
+		});
+
+		button = (Button) dialog.findViewById(R.id.full_desc_gallery_button);
+		button.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				dialog.dismiss();
+			}
+		});
+		
+		button = (Button) dialog.findViewById(R.id.full_desc_videos_button);
+		button.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				dialog.dismiss();
+			}
+		});
+		
+		button = (Button) dialog.findViewById(R.id.full_desc_music_button);
+		button.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				dialog.dismiss();
+			}
+		});
+
+		dialog.show();
 	}
 
 	public int getScreenWidth()

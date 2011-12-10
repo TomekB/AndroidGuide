@@ -1,20 +1,20 @@
 package pl.pwr.guide.interior;
 
-import java.util.ArrayList;
-
 import pl.pwr.guide.R;
-
+import pl.pwr.guide.interior.controller.InteriorPropertiesParser;
+import pl.pwr.guide.interior.model.ClickableImageView;
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.Display;
 import android.view.Window;
 import android.view.WindowManager;
 
-public class WalkowiakActivity extends Activity
+public class InteriorMainActivity extends Activity
 {
 	boolean tapped = false;
+	ClickableImageView switcherView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -27,9 +27,9 @@ public class WalkowiakActivity extends Activity
 
 		setContentView(R.layout.main);
 
-		final ClickableImageView switcherView = (ClickableImageView) this
+		switcherView = (ClickableImageView) this
 				.findViewById(R.id.main_image_view);
-		switcherView.setContext(this);
+		switcherView.setContext(InteriorMainActivity.this);
 
 		Display display = getWindowManager().getDefaultDisplay();
 		int screenWidth = display.getWidth();
@@ -37,18 +37,19 @@ public class WalkowiakActivity extends Activity
 		switcherView.setScreenWidth(screenWidth);
 		switcherView.setScreenHeight(screenHeight);
 
-		Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
-				R.drawable.plan1);
-		int bitmapWidth = bitmap.getWidth();
-		int bitmapHeight = bitmap.getHeight();
-		switcherView.setBitmapWidth(bitmapWidth);
-		switcherView.setBitmapHeight(bitmapHeight);
+		prepareBackground(1, 1);
+	}
 
-		InteriorPropertiesParser parser = new InteriorPropertiesParser();
-		parser.parse("place1.xml", WalkowiakActivity.this);
-
-		ArrayList<ClickablePoint> clickablePoints = parser.getClickablePoints();
-		switcherView.setClickablePoints(clickablePoints);
-		switcherView.setImageBitmap(bitmap);
+	private void prepareBackground(int interiorId, int roomId)
+	{
+		if (Environment.MEDIA_MOUNTED.equals(Environment
+				.getExternalStorageState()))
+		{
+			String roomPath = "/PWrGuide/INTERIOR_" + interiorId + "/Interior" + roomId;
+			
+			Log.d("PATH", roomPath);
+			InteriorPropertiesParser parser = new InteriorPropertiesParser();
+			parser.parse(roomPath, InteriorMainActivity.this, switcherView);
+		}
 	}
 }

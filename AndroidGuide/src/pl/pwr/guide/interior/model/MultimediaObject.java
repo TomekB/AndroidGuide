@@ -1,4 +1,4 @@
-package pl.pwr.guide.interior;
+package pl.pwr.guide.interior.model;
 
 public class MultimediaObject
 {	

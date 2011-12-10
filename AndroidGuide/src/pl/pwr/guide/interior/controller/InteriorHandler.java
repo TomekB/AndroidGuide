@@ -1,10 +1,13 @@
-package pl.pwr.guide.interior;
+package pl.pwr.guide.interior.controller;
 
 import java.util.ArrayList;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
+import pl.pwr.guide.interior.model.ClickablePoint;
+import pl.pwr.guide.interior.model.MultimediaObject;
 
 import android.util.Log;
 
@@ -43,7 +46,7 @@ public class InteriorHandler extends DefaultHandler
 			Attributes attributes) throws SAXException
 	{
 
-		Log.d("START", localName);
+//		Log.d("START", localName);
 		currentValue=""; 
 		
 		if (localName.equals("background"))
@@ -111,7 +114,7 @@ public class InteriorHandler extends DefaultHandler
 	public void endElement(String uri, String localName, String qName)
 			throws SAXException
 	{
-		Log.d("END", localName);
+//		Log.d("END", localName);
 		currentValue="";
 
 		if (localName.equals("background"))
