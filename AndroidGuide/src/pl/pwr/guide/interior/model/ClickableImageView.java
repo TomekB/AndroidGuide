@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import pl.pwr.guide.R;
 import pl.pwr.guide.interior.InteriorGallery;
+import pl.pwr.guide.interior.VideoPlayer;
 import pl.pwr.guide.interior.controller.Utils;
 
 import android.app.Dialog;
@@ -333,7 +334,12 @@ public class ClickableImageView extends ImageView
 			@Override
 			public void onClick(View v)
 			{
-				// dialog.dismiss();
+				Intent i = new Intent(context, VideoPlayer.class);
+
+				i.putExtra("path", roomPath + "/"
+						+ lastChoosenPoint.getVideos().get(0).getPath());
+
+				context.startActivity(i);
 			}
 		});
 		button.setEnabled(point.getVideos().size() > 0);
@@ -350,6 +356,7 @@ public class ClickableImageView extends ImageView
 					mediaPlayer = new MediaPlayer();
 					mediaPlayer.setDataSource(roomPath + "/"
 							+ lastChoosenPoint.getSongs().get(0).getPath());
+					mediaPlayer.prepare();
 
 					playSong(roomPath + "/"
 							+ lastChoosenPoint.getSongs().get(0).getPath(),
@@ -368,7 +375,7 @@ public class ClickableImageView extends ImageView
 	private void playSong(String path, String title)
 	{
 		final Dialog dialog = new Dialog(context);
-		dialog.setContentView(R.layout.song_player_desc);
+		dialog.setContentView(R.layout.song_player);
 		dialog.setTitle(title);
 		dialog.setCancelable(true);
 

@@ -19,6 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".interior.InteriorGallery" />
+        <activity android:name=".interior.VideoPlayer" android:screenOrientation="landscape"/>
         <!-- <activity android:name="pl.pwr.guide.exterior.GuideMapActivity" />
         <activity android:name="pl.pwr.guide.exterior.Preferences" />
         <activity android:name="pl.pwr.guide.exterior.PoiViewActivity" />

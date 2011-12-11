@@ -32,5 +32,6 @@
 	<string name="music">muzyka</string>
 	<string name="play">odtwarzaj</string>
 	<string name="pause">zatrzymaj</string>
-
+    <string name="go">Go!</string>
+    <string name="url">URL to streaming video</string>
 </resources>
