@@ -30,5 +30,7 @@
 	<string name="gallery">galeria</string>
 	<string name="video">video</string>
 	<string name="music">muzyka</string>
+	<string name="play">odtwarzaj</string>
+	<string name="pause">zatrzymaj</string>
 
 </resources>

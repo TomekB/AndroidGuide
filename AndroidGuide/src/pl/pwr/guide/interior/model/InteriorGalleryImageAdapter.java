@@ -2,7 +2,10 @@ package pl.pwr.guide.interior.model;
 
 import java.util.ArrayList;
 
+import pl.pwr.guide.R;
+
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.BitmapFactory;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +15,7 @@ import android.widget.ImageView;
 
 public class InteriorGalleryImageAdapter extends BaseAdapter
 {
-	int mGalleryItemBackgrsound;
+	int mGalleryItemBackground;
 	private Context mContext;
 	int screenWidth, screenHeight;
 	private ArrayList<String> imagesArray;
@@ -24,6 +27,10 @@ public class InteriorGalleryImageAdapter extends BaseAdapter
 		screenWidth = width;
 		screenHeight = height;
 		mContext = c;
+		TypedArray a = c.obtainStyledAttributes(R.styleable.Gallery1);
+		mGalleryItemBackground = a.getResourceId(
+				R.styleable.Gallery1_android_galleryItemBackground, 0);
+		a.recycle();
 	}
 
 	public int getCount()
@@ -48,7 +55,7 @@ public class InteriorGalleryImageAdapter extends BaseAdapter
 		i.setImageBitmap(BitmapFactory.decodeFile(imagesArray.get(position)));
 		i.setLayoutParams(new Gallery.LayoutParams(screenWidth, screenHeight));
 		i.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-		// i.setBackgroundResource(mGalleryItemBackground);
+		i.setBackgroundResource(mGalleryItemBackground);
 
 		return i;
 	}

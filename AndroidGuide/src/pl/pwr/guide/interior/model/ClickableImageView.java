@@ -12,6 +12,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.media.MediaPlayer;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -22,6 +24,7 @@ import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +41,9 @@ public class ClickableImageView extends ImageView
 	private String roomPath;
 
 	boolean tapped;
+	private MediaPlayer mediaPlayer;
+	Button buttonPlayStop;
+	private SeekBar seekBar;
 
 	// set maximum scroll amount (based on center of image)
 	int maxX = (int) ((bitmapWidth / 2) - (screenWidth / 2));
@@ -53,6 +59,8 @@ public class ClickableImageView extends ImageView
 	int totalX, totalY;
 	int scrollByX, scrollByY;
 	private Context context;
+
+	private final Handler handler = new Handler();
 
 	public void setRoomPath(String roomPath)
 	{
@@ -336,12 +344,115 @@ public class ClickableImageView extends ImageView
 			@Override
 			public void onClick(View v)
 			{
-				// dialog.dismiss();
+				// show alert with list
+				try
+				{
+					mediaPlayer = new MediaPlayer();
+					mediaPlayer.setDataSource(roomPath + "/"
+							+ lastChoosenPoint.getSongs().get(0).getPath());
+
+					playSong(roomPath + "/"
+							+ lastChoosenPoint.getSongs().get(0).getPath(),
+							lastChoosenPoint.getSongs().get(0).getDescription());
+				} catch (Exception e)
+				{
+					e.printStackTrace();
+				}
 			}
 		});
 		button.setEnabled(point.getSongs().size() > 0);
 
 		dialog.show();
+	}
+
+	private void playSong(String path, String title)
+	{
+		final Dialog dialog = new Dialog(context);
+		dialog.setContentView(R.layout.song_player_desc);
+		dialog.setTitle(title);
+		dialog.setCancelable(true);
+
+		buttonPlayStop = (Button) dialog
+				.findViewById(R.id.song_player_play_button);
+		buttonPlayStop.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				if (!mediaPlayer.isPlaying())
+				{
+					buttonPlayStop.setText(R.string.pause);
+					try
+					{
+						mediaPlayer.start();
+						startPlayProgressUpdater();
+					} catch (IllegalStateException e)
+					{
+						e.printStackTrace();
+						mediaPlayer.pause();
+					}
+				} else
+				{
+					buttonPlayStop.setText(R.string.play);
+					mediaPlayer.pause();
+				}
+			}
+		});
+
+		seekBar = (SeekBar) dialog.findViewById(R.id.song_player_seekbar);
+		seekBar.setMax(mediaPlayer.getDuration());
+		seekBar.setOnTouchListener(new OnTouchListener()
+		{
+			@Override
+			public boolean onTouch(View v, MotionEvent event)
+			{
+				if (mediaPlayer.isPlaying())
+				{
+					SeekBar sb = (SeekBar) v;
+					mediaPlayer.seekTo(sb.getProgress());
+				}
+				return false;
+			}
+		});
+
+		Button button = (Button) dialog
+				.findViewById(R.id.song_player_close_button);
+		button.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				if (mediaPlayer.isPlaying())
+				{
+					mediaPlayer.stop();
+				}
+				dialog.dismiss();
+			}
+		});
+
+		dialog.show();
+	}
+
+	public void startPlayProgressUpdater()
+	{
+		seekBar.setProgress(mediaPlayer.getCurrentPosition());
+
+		if (mediaPlayer.isPlaying())
+		{
+			Runnable notification = new Runnable()
+			{
+				public void run()
+				{
+					startPlayProgressUpdater();
+				}
+			};
+			handler.postDelayed(notification, 1000);
+		} else
+		{
+			mediaPlayer.pause();
+			buttonPlayStop.setText(R.string.play);
+			seekBar.setProgress(0);
+		}
 	}
 
 	public int getScreenWidth()
